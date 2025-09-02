@@ -1,0 +1,31 @@
+{
+  "name": "lampwebsocket",
+  "version": "1.0.0",
+  "description": "Lamp modulation backend (Express + MSSQL + WS)",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "luxon": "^3.7.1",
+    "mssql": "^11.0.1",
+    "pino": "^9.9.0",
+    "pino-pretty": "^13.1.1",
+    "ws": "^8.18.3",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
