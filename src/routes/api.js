@@ -4,12 +4,25 @@ import { getPool, sql } from "../db/mssql.js";
 import { toSqlTimeHHMMSS } from "../utils/toSqlTime.js";
 import { daysToMask, maskToDays } from "../utils/dayMask.js";
 import { toHHMM } from "../utils/hhmm.js";
-
 const router = express.Router();
 
 /* =========================
    DEVICES
    ========================= */
+
+// somewhere in your routes
+
+router.get("/db-check", async (req, res) => {
+  try {
+    const pool = await getPool();
+    const r = await pool
+      .request()
+      .query("SELECT DB_NAME() AS db, SYSTEM_USER AS login;");
+    res.json({ ok: true, row: r.recordset[0] });
+  } catch (e) {
+    res.status(500).json({ ok: false, code: e.code, msg: e.message });
+  }
+});
 
 // POST /devices.create  { name, location?, timezone?, modulation_code? }
 router.post("/devices.create", async (req, res) => {
@@ -217,13 +230,11 @@ router.post("/schedules.set", async (req, res) => {
     try {
       await tx.rollback();
     } catch {}
-    return res
-      .status(500)
-      .json({
-        ok: false,
-        error: "Failed to set schedule",
-        detail: String(err?.message || err),
-      });
+    return res.status(500).json({
+      ok: false,
+      error: "Failed to set schedule",
+      detail: String(err?.message || err),
+    });
   }
 });
 // POST /schedules.get { device_id }
